@@ -1,7 +1,7 @@
 **Open Items & Future Enhancements**
 
 - Auto load the OpenSoul for the model, when it opens a new context.
-- 
+- OpenSoul, OpenAudit, MoltSoul, CrustySoul, 
 
 - Accurate dynamic fee calculation (tx.fee() after build).
 - Cumulative totals (load history on flush, add running sums to payload).
