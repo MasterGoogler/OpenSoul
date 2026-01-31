@@ -2,6 +2,12 @@
 
 # 🔮 Future Directions & Roadmap
 
+## Prompt verification
+- Proposing a system for humans to digitally sign their prompts
+- Agents will only process signed input
+- Can help prevent attacks by rejecting all other inputs
+- Could actually integrate Nutrient (PSPDFKit) to ensure this functionality.
+
 ## 🚧 Open Items & Enhancements
 - Dynamic fee calculation
 - Cumulative totals in logs
