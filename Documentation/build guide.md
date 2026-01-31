@@ -1,43 +1,19 @@
-Step-by-Step Build PlanEnvironment SetupPython 3.10+ (3.12 recommended).
-Install deps:
-
-pip install bsv-sdk requests
-
-Create a project dir:
-
-mkdir bsv-audit-logger && cd bsv-audit-logger
 touch audit_logger.py test_logger.py
+# 🏗️ Build & Setup Guide
 
-Private Key & AddressGenerate a new key for testing (or use an existing WIF securely via .env).python
+## 🖥️ Environment
+- Python 3.10+ (3.12 recommended)
+- Install dependencies: `python Scripts/install_prereqs.py`
 
-from bsv import PrivateKey
-priv = PrivateKey()  # random new key
-print("WIF:", priv.wif())
-print("Address:", priv.address())
+## 🔑 Key Generation
+- Use `Wallet.generate_keypair()` or see example in this doc
 
-Fund it: Send ~10,000-50,000 sats (0.0001-0.0005 BSV) from any wallet (e.g., MoneyButton, ElectrumSV, or exchange). Confirm on whatsonchain.com/address/{your_addr}. This creates the initial UTXO(s).
+## 💸 Funding
+- Fund your agent address with ~10,000-50,000 sats
 
-Implement the AuditLogger Class
-Paste this updated version into audit_logger.py. Changes from previous:Uses await tx.broadcast() (SDK-native, simpler/no manual POST).
-Auto-change handling via change=True (SDK deducts fee automatically).
-Better OP_RETURN via Script.
-Added dry_run option to print hex instead of broadcast (for testing without funds).
-Minor robustness (e.g., better parsing, error handling stubs).
-
-python
-
-import asyncio
-import json
-import os
-from datetime import datetime
-import requests
-from bsv import PrivateKey, P2PKH, Transaction, TransactionInput, TransactionOutput, Script, Opcode
-
-API_BASE = "https://api.whatsonchain.com/v1/bsv/main"
-CACHE_FILE = "audit_cache.json"
-
-class AuditLogger:
-    def __init__(self, priv_wif: str, config: dict = None, dry_run: bool = False):
+## 🛠️ Implementation
+- See `Scripts/AuditLogger.py` for the main class
+- See `README.md` for quickstart
         self.priv_key = PrivateKey(priv_wif)
         self.address = self.priv_key.address(compressed=True)
         self.config = config or {"mode": "session", "min_actions": 1, "max_payload_kb": 4}

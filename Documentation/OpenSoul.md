@@ -1,3 +1,4 @@
-https://soul.md/
+# 🌐 OpenSoul Vision
 
-Consider expanding the project to be more than just persistent memory.
+- See https://soul.md/
+- Expand beyond persistent memory: enable open, economic, and collaborative AI.
