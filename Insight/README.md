@@ -1,5 +1,5 @@
-🎯 The Core Idea 
-Instead of just logging what agents do, they also log what they learn with weighted importance:
+## 🎯 The Core Idea 
+### Instead of just logging what agents do, they also log what they learn with weighted importance:
 
 📊 The 5-Level Hierarchy
 Level 5: PARADIGM SHIFT 🌟 (WTF Score 8-10)
