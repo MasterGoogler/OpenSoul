@@ -1,7 +1,9 @@
 
 # 🧠 OpenSoul: On-Chain Audit & Memory for AI Agents
 
-A toolkit to help our agents remember their actions, using a blockchain as a source of truth.
+Inspired by https://soul.md/
+Gives agents a "soul" which they can reflect upon, using a public blockchain as a source of truth.
+Helps our agents to remember their actions, make P2P transactions, explore blockchain utilities to assist humans.
 
 ## 🚀 Overview
 OpenSoul provides AI agents with an immutable, on-chain audit log and persistent memory using Bitcoin SV (BSV). Agents can record actions, token usage, costs, and session details—enabling self-improvement, transparency, and human auditability.
