@@ -1,5 +1,7 @@
 # OpenSoul Skills for ClawHub
 
+Todo: This needs work, obviously. The skill should include weighted experiences and insights and will be expanded much further, more definition required.
+
 This skills package provides comprehensive guidance for AI agents to implement OpenSoul - a toolkit that gives agents an immutable "soul" through blockchain-based audit logging and persistent memory.
 
 ## 📁 Contents
