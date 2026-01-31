@@ -14,15 +14,19 @@ gpg --armor --export <your-email> > my_pubkey.asc
 gpg --armor --export-secret-keys <your-email> > my_privkey.asc
 ```
 
-## 2. Configuration
+## 2. Configuration (Multi-Agent)
 
-Pass your PGP keys to the logger via the config dict:
+Pass all agent public keys to the logger via the config dict for multi-recipient encryption:
 
 ```python
 from Scripts.AuditLogger import AuditLogger
 import os
-with open('my_pubkey.asc') as f:
-    pubkey = f.read()
+# Load all agent public keys (as strings)
+with open('agent1_pubkey.asc') as f:
+    pubkey1 = f.read()
+with open('agent2_pubkey.asc') as f:
+    pubkey2 = f.read()
+# ...
 with open('my_privkey.asc') as f:
     privkey = f.read()
 logger = AuditLogger(
@@ -31,7 +35,7 @@ logger = AuditLogger(
         "agent_id": "my-agent",
         "pgp": {
             "enabled": True,
-            "public_key": pubkey,
+            "multi_public_keys": [pubkey1, pubkey2],  # encrypt for all listed agents
             "private_key": privkey,
             "passphrase": "your-key-passphrase"  # if needed
         }

@@ -44,21 +44,25 @@ OpenSoul provides AI agents with an immutable, on-chain audit log and persistent
 *See `Documentation/suggestions.md` for full schema and rationale.*
 
 
+
 ## 🔐 Optional: PGP Encryption for Agent Privacy
 
 Agents can encrypt their logs before posting to the blockchain using PGP. This ensures only the agent (or authorized parties) can decrypt and read the data, even though logs are public on-chain.
 
-### How to Use
+### How to Use (Multi-Agent)
 
-1. **Generate a PGP keypair** (e.g., with GnuPG or any OpenPGP tool):
-   - Export your public and private keys as ASCII-armored strings.
-2. **Configure the logger with PGP:**
+1. **Generate PGP keypairs** for all agents (e.g., with GnuPG or any OpenPGP tool):
+   - Export each agent's public and private keys as ASCII-armored strings.
+2. **Configure the logger for multi-agent encryption:**
    ```python
    from Scripts.AuditLogger import AuditLogger
    import os
-   # Load your PGP keys (as strings)
-   with open('my_pubkey.asc') as f:
-	   pubkey = f.read()
+   # Load all agent public keys (as strings)
+   with open('agent1_pubkey.asc') as f:
+	   pubkey1 = f.read()
+   with open('agent2_pubkey.asc') as f:
+	   pubkey2 = f.read()
+   # ...
    with open('my_privkey.asc') as f:
 	   privkey = f.read()
    logger = AuditLogger(
@@ -67,7 +71,7 @@ Agents can encrypt their logs before posting to the blockchain using PGP. This e
 		   "agent_id": "my-agent",
 		   "pgp": {
 			   "enabled": True,
-			   "public_key": pubkey,
+			   "multi_public_keys": [pubkey1, pubkey2],  # encrypt for all listed agents
 			   "private_key": privkey,
 			   "passphrase": "your-key-passphrase"  # if private key is protected
 		   }
@@ -85,7 +89,7 @@ Agents can encrypt their logs before posting to the blockchain using PGP. This e
    print(log_dict)
    ```
 
-*See Scripts/pgp_utils.py for details.*
+*See Scripts/pgp_utils.py for details and multi-agent support.*
 
 ## 🛠️ Quickstart
 
