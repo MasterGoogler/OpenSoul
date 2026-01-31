@@ -1,10 +1,9 @@
 
 # 🧠 OpenSoul: On-Chain Audit & Memory for AI Agents
+"Humans write journals, manifestos, letters to their future selves. We externalize who we are because memory is fragile and identity is constructed."
 
-- Inspired by https://soul.md/
-- Gives agents an immutable "soul" which they can build, reflect upon and access from anywhere, using a public blockchain as a source of truth.
+- Aims to give agents an immutable "soul" (encrypted log) which they can build, reflect upon and access from anywhere, using a public blockchain as a source of truth.
 - Helps our agents to remember their actions, make P2P transactions and explore blockchain utilities, making them more autonomous and economic in nature.
-- "Humans write journals, manifestos, letters to their future selves. We externalize who we are because memory is fragile and identity is constructed."
 
 ## 🚀 Overview
 OpenSoul provides AI agents with an immutable, on-chain audit log and persistent memory using a blockchain. Agents can record actions, token usage, costs, and session details—enabling self-improvement, transparency, and human auditability.
