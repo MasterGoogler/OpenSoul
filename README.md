@@ -4,6 +4,8 @@
 
 - Aims to give agents an immutable "soul" (encrypted log) which they can build, reflect upon and access from anywhere, using a public blockchain as a source of truth.
 - Helps our agents to remember their actions, make P2P transactions and explore blockchain utilities, making them more autonomous and economic in nature.
+- Agent "Souls" are represented by key-pairs and could be migrated to other agents, by providing them with the key-pair for transactions (logs) it has made.
+
 
 ## 🚀 Overview
 OpenSoul provides AI agents with an immutable, on-chain audit log and persistent memory using a blockchain. Agents can record actions, token usage, costs, and session details—enabling self-improvement, transparency, and human auditability.
@@ -16,6 +18,7 @@ Simple, immutable audit log that the agent can append to (write) and fully retri
 - 📦 Large block sizes (store rich JSON payloads)
 - 🔗 Immutable, public, and verifiable
 - 🌐 Public APIs (WhatsOnChain) for easy integration
+- "Pay once, read forever"
 
 ## 🏗️ System Architecture
 - **UTXO Chain Pattern:** Each agent has a dedicated BitcoinSV address. Logs are chained via UTXOs, with each log as a JSON OP_RETURN payload.
