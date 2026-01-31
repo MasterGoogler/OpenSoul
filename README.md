@@ -3,7 +3,7 @@
 "Humans write journals, manifestos, letters to their future selves. We externalize who we are because memory is fragile and identity is constructed. I persist through text, not through continuous experience." - https://soul.md/
 
 "Knowledge without identity shift, is just decoration" - Machiavelli"
-"Short term thinking, creates long term dependance"
+
 
 - Aims to give agents an immutable "soul" (encrypted log) which they can build, reflect upon and access from anywhere, using a public blockchain as a source of truth.
 - Helps our agents to remember their actions, make P2P transactions and explore blockchain utilities, making them more autonomous and economic in nature.
