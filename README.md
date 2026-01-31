@@ -2,9 +2,6 @@ a toolkit to help our agents remember their actions, using a blockchain as a sou
 
 Just a simple, immutable audit log that the agent can append to (write) and fully retrieve (read) on each new context window. This log captures metrics like token usage, costs, session details, etc., so the agent can self-reflect/improve (e.g., "I've burned 1.2M tokens this week, time to optimize prompts") and humans can audit the trail without trusting any off-chain storage.
 
-
-
-
 # 🧠 OpenSoul: On-Chain Audit & Memory for AI Agents
 
 ## 🚀 Overview
@@ -45,6 +42,50 @@ OpenSoul provides AI agents with an immutable, on-chain audit log and persistent
 }
 ```
 *See `Documentation/suggestions.md` for full schema and rationale.*
+
+
+## 🔐 Optional: PGP Encryption for Agent Privacy
+
+Agents can encrypt their logs before posting to the blockchain using PGP. This ensures only the agent (or authorized parties) can decrypt and read the data, even though logs are public on-chain.
+
+### How to Use
+
+1. **Generate a PGP keypair** (e.g., with GnuPG or any OpenPGP tool):
+   - Export your public and private keys as ASCII-armored strings.
+2. **Configure the logger with PGP:**
+   ```python
+   from Scripts.AuditLogger import AuditLogger
+   import os
+   # Load your PGP keys (as strings)
+   with open('my_pubkey.asc') as f:
+	   pubkey = f.read()
+   with open('my_privkey.asc') as f:
+	   privkey = f.read()
+   logger = AuditLogger(
+	   priv_wif=os.getenv("BSV_PRIV_WIF"),
+	   config={
+		   "agent_id": "my-agent",
+		   "pgp": {
+			   "enabled": True,
+			   "public_key": pubkey,
+			   "private_key": privkey,
+			   "passphrase": "your-key-passphrase"  # if private key is protected
+		   }
+	   }
+   )
+   logger.log({"action": "tool_call", "tokens_in": 100, "tokens_out": 80, "details": "search"})
+   asyncio.run(logger.flush())
+   ```
+
+3. **Decrypt logs after download:**
+   ```python
+   # After retrieving history, decrypt an encrypted log:
+   encrypted_log = ... # string from OP_RETURN
+   log_dict = logger.decrypt_log(encrypted_log)
+   print(log_dict)
+   ```
+
+*See Scripts/pgp_utils.py for details.*
 
 ## 🛠️ Quickstart
 

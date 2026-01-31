@@ -1,3 +1,4 @@
+
 import asyncio
 import json
 import os
@@ -6,6 +7,7 @@ from datetime import datetime
 import requests
 from bsv import PrivateKey, P2PKH, Transaction, TransactionInput, TransactionOutput, Script, Opcode
 from wallet import Wallet
+from pgp_utils import PGPManager
 
 API_BASE = Wallet.set_api_base(mainnet=True)
 CACHE_FILE = "audit_cache.json"  # local file for last_txid + last_utxo info
@@ -23,7 +25,7 @@ CACHE_FILE = "audit_cache.json"  # local file for last_txid + last_utxo info
 
 class AuditLogger:
     BATCH_FILE = "audit_batch.json"
-        # All wallet/key management, payments, address book, etc. are now in wallet.py (Wallet class)
+    # All wallet/key management, payments, address book, etc. are now in wallet.py (Wallet class)
     def __init__(self, priv_wif: str, config: dict = None):
         self.priv_key = PrivateKey(priv_wif)
         self.address = self.priv_key.address(compressed=True)  # P2PKH default
@@ -31,6 +33,15 @@ class AuditLogger:
         self.session_start = datetime.utcnow().isoformat() + "Z"
         self._load_cache()
         self._init_batch()
+        # PGP config: expects dict with 'public_key', 'private_key', 'passphrase', 'enabled'
+        self.pgp = None
+        pgp_cfg = self.config.get("pgp")
+        if pgp_cfg and pgp_cfg.get("enabled"):
+            self.pgp = PGPManager(
+                public_key_str=pgp_cfg.get("public_key"),
+                private_key_str=pgp_cfg.get("private_key"),
+                passphrase=pgp_cfg.get("passphrase")
+            )
     """
     Immutable, on-chain audit logger for AI agents using BSV.
     Usage:
@@ -115,7 +126,6 @@ class AuditLogger:
         source_tx = Transaction.from_hex(source_tx_hex)
 
         # Build payload
-        # Build payload
         payload = {
             "agent_id": self.config.get("agent_id", "default-agent"),
             "session_start": self.session_start,
@@ -123,6 +133,11 @@ class AuditLogger:
             "metrics": self.actions,
         }
         data = json.dumps(payload).encode("utf-8")
+        # Encrypt if PGP enabled
+        if self.pgp:
+            data = self.pgp.encrypt(data)
+            # Store as string (utf-8) for OP_RETURN
+            data = data.encode("utf-8")
         if len(data) > self.config["max_payload_kb"] * 1024:
             # Compress if too large
             data = gzip.compress(data)
@@ -167,6 +182,13 @@ class AuditLogger:
         new_utxo = {"txid": txid, "vout": 1, "value": change_sat}  # change is output 1
         self._save_cache(txid, new_utxo)
         print(f"Logged session to tx {txid}")
+
+    def decrypt_log(self, encrypted_data: str) -> dict:
+        """Decrypts a PGP-encrypted log entry (as string) and returns the JSON dict."""
+        if not self.pgp:
+            raise ValueError("PGP not configured for this logger")
+        decrypted = self.pgp.decrypt(encrypted_data)
+        return json.loads(decrypted)
 
     async def _query_current_utxo(self):
         resp = requests.get(f"{API_BASE}/address/{self.address}/unspent")
