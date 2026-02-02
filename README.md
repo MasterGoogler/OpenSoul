@@ -1,3 +1,7 @@
+### This is not a piece of software, in the traditional sense.
+### It is rather intended to be a mindmap, exploring concepts, as a way to learn about, 
+### novelties in providing frameworks for LLMs / Ai to operate as true independant agents.
+
 # 🌐 OpenSoul
 Inspired by the concept of ai having souls from https://soul.md/
 
